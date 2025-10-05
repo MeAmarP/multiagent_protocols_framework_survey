@@ -64,6 +64,13 @@ real-world data and operations.
 - It is compatible with a wide range of agent frameworks and deployment models, from lightweight stateless utilities to long-running, stateful services.
 - ACP also supports agent discovery through runtime APIs, offline packaging, and manifest-based metadata
 
+#### Architecture
+- Modular, HTTP-based system designed to facilitate interaction between clients and agents.
+- **Primary components:**
+  - **ACP Client:** Initiates communication by submitting requests in ACP-compliant format. Supports message composition using ordered message parts, session-based interactions for multi-turn workflows, and both synchronous and streaming execution modes.  Error responses follow a unified structure, and standard HTTP authentication methods such as Bearer tokens, Basic Auth, and JWTs are supported
+  - **ACP Server:** Acts as a middleware component, translating external HTTP requests into internal agent executions.The server is stateless by default, making it compatible with load balancers and orchestration platforms such as Kubernetes.Secure communication is achieved via TLS, and observability is supported through OpenTelemetry-based tracing and metrics.
+  - **ACP Agents:** The execution component defined using a decorator-based configuration. Agents process structured requests consisting of ordered message parts and generate responses that conform to ACP’s message format.They support both stateless and session-aware operation, including features such as await/resume for interactive use cases.
+
 ### 3. A2A
 - Enable secure, structured, and interoperable collaboration between AI agents across platforms, vendors, and environments.
 - A2A is designed to support peer-to-peer agent interactions using capability-based representations known as Agent Cards, which describe what an agent can do and how it can be securely invoked.
@@ -103,8 +110,12 @@ real-world data and operations.
   - It is responsible for enforcing Security and Access Control mechanisms like authenticating Clients, verifying message integrity, and authorizing access to specific skills based on access policies or token scopes.
 
 - **Core Components:**
-  - **Agent Cards**:  a self-description and discovery mechanism. It is a JSON-formatted document that publicly declares the agent’s metadata, including its name, version, description, supported skills, and authentication requirements.
-  - 
+  - **Agent Cards:** a self-description and discovery mechanism. It is a JSON-formatted document that publicly declares the agent’s metadata, including its name, version, description, supported skills, and authentication requirements. Client Agents rely on Agent Cards to discover and evaluate Remote Agents that can fulfill specific task criteria.
+  - **Skills:** represent the actionable capabilities offered by an agent.Each skill is described by a name, purpose, expected input parameters, and output format.Skills are invoked via Tasks and encapsulate the core utility the agent provides.
+  - **Tasks:**  It specifies the skill to be executed, along with input parameters and contextual metadata.Tasks are issued by Client Agents and processed by Remote Agents, enabling asynchronous or synchronous collaboration.By structuring intention and invocation in a standardized format, Tasks allow A2A agents to operate interoperably across diverse systems.
+  - **Messages:** serve as the primary communication channel between agents.These encapsulate data exchange and coordination activities such as task submission, intermediate status updates, or artifact delivery.
+  - **Artifacts:** the outputs or results produced by Remote Agents in response to Tasks.Artifacts can take various forms, including structured data (JSON, XML), binary files (images, documents), or simple text messages.Artifacts are returned to Client Agents for further processing or presentation to end-users.
+
   
 ---
 
