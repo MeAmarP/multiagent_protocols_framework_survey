@@ -119,6 +119,19 @@ real-world data and operations.
   
 ---
 
+### 4. Comparative Analysis: Capabilities, Features, Development, Auth & Security
+
+| Aspect                                     | MCP                                                                                                                      | ACP                                                                                                   | A2A                                                                                       |
+| ------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| **Primary capabilities / roles**           | Context / tool access, data integration, resource invocation, typed data exchange                                        | Messaging, task handoff, multimodal payloads, agent coordination                                      | Peer-to-peer delegation, capability negotiation, discovery, cross-agent workflows         |
+| **Features / strengths**                   | Standardized tool access (APIs, functions), typed structured data, JSON-RPC, context continuity                          | REST interface, asynchronous / streaming, multimodal messages, agent “cards” abstraction               | Capability-based agent cards, peer messaging, discovery, cross-vendor extension           |
+| **Ease of development / tool support**     | Fairly easier (client + server models), SDKs available (e.g. MCP server/client frameworks)                               | More complexity (multiple agents, message routing, streaming) but still designed to be simple REST APIs| Higher complexity: negotiation, discovery, trust, possibly dynamic topology               |
+| **Authentication / Identity / Auth model** | Each MCP server controls permissions (which tools / data are exposed) per client; uses API keys, tokens, access control  | ACP agents talk over REST, so you can layer standard HTTP auth (OAuth, tokens, mutual TLS) plus agent identity / certificates. | Need peer identity verification, delegation tokens, capability-based access control; more intricate trust / identity management |
+| **Security / Threats / Mitigations**       | Prompt injection, tool misuse, data leakage; identity fragmentation (weak identity boundaries)                           | Replay attacks, message tampering, eavesdropping (use TLS), misrouting; malformed payloads, cross-agent impersonation | Rogue agent insertion, capability misuse, Sybil attacks, trust anchoring, secure discovery|
+| **Trade-offs / Constraints**               | Not a full agent communication layer; limited inter-agent capabilities                                                   | Adds messaging overhead, routing complexity, latency                                                  | Complexity in peer protocol, trust, versioning, discovery overhead                        |
+| **When to use / ideal role in stack**      | Foundational layer: connecting agent to data/tool world (within agent boundary)                                          | Agent-to-agent messaging within a domain / cluster                                                    | Cross-domain, heterogeneous, peer-level “open” agent ecosystems                           |
+
+
 ## References
 
 - *A Survey of Agent Interoperability Protocols: Model Context Protocol (MCP), Agent Communication Protocol (ACP), Agent-to-Agent Protocol (A2A), and Agent Network Protocol (ANP)*
